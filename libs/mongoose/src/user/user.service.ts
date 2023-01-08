@@ -17,16 +17,8 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<IUser> {
-    const userExists = await this.userModel
-      .findOne({ email: createUserDto.email, deleted: false })
-      .lean()
-      .exec();
-    if (!userExists) {
-      const createdUser = await new this.userModel(createUserDto).save();
-      return createdUser;
-    } else {
-      return userExists;
-    }
+    const createdUser = await new this.userModel(createUserDto).save();
+    return createdUser;
   }
 
   userExists(uid: string) {
